@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HLA2106 Unit 23 - Discussing Pros and Cons</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .page {
+            display: none;
+            padding: 40px;
+            min-height: 600px;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Page 1 - Landing (Unit 22 Style) */
+        .landing {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            background: white;
+            color: #5b6ad0;
+            padding: 60px 40px;
+        }
+
+        .emoji-group {
+            display: flex;
+            gap: 20px;
+            font-size: 4rem;
+            margin-bottom: 40px;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .emoji-group span {
+            animation: bounce 2s infinite;
+        }
+
+        .emoji-group span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .emoji-group span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        .landing h1 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: #5b6ad0;
+            font-weight: 700;
+        }
+
+        .landing h2 {
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .challenge-section {
+            background: #f8f9ff;
+            padding: 30px 40px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            max-width: 700px;
+        }
+
+        .challenge-title {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .challenge-description {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .features-list {
+            text-align: left;
+            margin: 0 auto;
+            max-width: 600px;
+        }
+
+        .features-list li {
+            font-size: 1.05rem;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .start-btn {
+            background: linear-gradient(135deg, #5b6ad0, #7c5cdb);
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 10px 30px rgba(91, 106, 208, 0.3);
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(91, 106, 208, 0.4);
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Page Headers */
+        .page-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .page-header h2 {
+            color: #667eea;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .page-header p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Page 2 - Drag and Drop */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .whatsapp-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Audio Player */
+        .audio-player {
+            background: #128C7E;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .audio-player-title {
+            color: white;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .audio-player audio {
+            width: 100%;
+            outline: none;
+            border-radius: 25px;
+        }
+
+        .whatsapp-chat {
+            background: #e5ddd5;
+            border-radius: 15px;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .message {
+            background: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: relative;
+            max-width: 90%;
+        }
+
+        .message-sender {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .message-text {
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .message-time {
+            color: #999;
+            font-size: 0.75rem;
+            text-align: right;
+            margin-top: 5px;
+        }
+
+        /* Drag and Drop Section */
+        .drag-drop-section {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .drop-zone {
+            background: #f8f9fa;
+            border: 3px dashed #ddd;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 200px;
+            transition: all 0.3s;
+        }
+
+        .drop-zone.drag-over {
+            border-color: #667eea;
+            background: #f0f4ff;
+        }
+
+        .drop-zone-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .pros-header {
+            color: #28a745;
+        }
+
+        .cons-header {
+            color: #dc3545;
+        }
+
+        .draggable-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .draggable-item {
+            background: #667eea;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 25px;
+            cursor: move;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+            user-select: none;
+        }
+
+        .draggable-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+
+        .draggable-item.dragging {
+            opacity: 0.5;
+        }
+
+        .dropped-item {
+            background: #28a745;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            display: inline-block;
+            margin-right: 10px;
+            animation: dropIn 0.3s ease;
+        }
+
+        .dropped-item-wrong {
+            background: #dc3545;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 20px;
+            margin-bottom: 10px;
+            display: inline-block;
+            margin-right: 10px;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes dropIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        /* Page 3 - Click Modal Verbs */
+        .statements-list {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        .statement-item {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .statement-item .word {
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 4px;
+            transition: all 0.2s;
+            display: inline-block;
+        }
+
+        .statement-item .word:hover {
+            background: #f0f0f0;
+        }
+
+        .statement-item .word.selected {
+            background: #28a745;
+            color: white;
+            font-weight: bold;
+        }
+
+        .statement-item .word.wrong {
+            background: #dc3545;
+            color: white;
+            animation: shake 0.5s ease;
+        }
+
+        .statement-label {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .pro-label {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .con-label {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        /* Explanation Box */
+        .explanation-box {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 15px;
+            display: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        .explanation-box.show {
+            display: block;
+        }
+
+        .explanation-box p {
+            color: #856404;
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .explanation-box strong {
+            color: #dc3545;
+        }
+
+        /* Page 4 - Bonus Question */
+        .bonus-section {
+            background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+            padding: 40px;
+            border-radius: 20px;
+            color: white;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .bonus-section h3 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .bonus-section .star {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: rotate 3s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .matching-area {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .modal-verb-box {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .modal-verb-box:hover {
+            transform: scale(1.05);
+            background: #764ba2;
+        }
+
+        .modal-verb-box.matched-pro {
+            background: #28a745;
+        }
+
+        .modal-verb-box.matched-con {
+            background: #dc3545;
+        }
+
+        .category-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            min-height: 200px;
+        }
+
+        .category-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        /* Page 5 - Completion Page */
+        .completion-page {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 40px;
+        }
+
+        .completion-page .celebration {
+            font-size: 6rem;
+            margin-bottom: 30px;
+            animation: bounce 2s infinite;
+        }
+
+        .completion-page h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        .completion-page p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            line-height: 1.8;
+        }
+
+        .completion-box {
+            background: white;
+            color: #333;
+            padding: 40px;
+            border-radius: 20px;
+            max-width: 700px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .completion-box h3 {
+            color: #667eea;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+
+        .learnt-list {
+            text-align: left;
+            margin: 20px 0;
+        }
+
+        .learnt-list li {
+            font-size: 1.1rem;
+            color: #555;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .next-steps {
+            background: #f0f4ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .next-steps p {
+            color: #667eea;
+            font-size: 1.15rem;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Navigation Buttons */
+        .nav-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            gap: 15px;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #e0e0e0;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Feedback Messages */
+        .feedback {
+            margin-top: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            display: none;
+            animation: slideDown 0.5s ease;
+        }
+
+        .feedback.success {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .landing h1 {
+                font-size: 2rem;
+            }
+
+            .landing h2 {
+                font-size: 1.5rem;
+            }
+
+            .emoji-group {
+                font-size: 3rem;
+                gap: 15px;
+            }
+
+            .challenge-section {
+                padding: 20px 25px;
+            }
+
+            .features-list li {
+                font-size: 0.95rem;
+            }
+
+            .split-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .page {
+                padding: 20px;
+            }
+
+            .page-header h2 {
+                font-size: 1.5rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .whatsapp-chat {
+                max-height: 400px;
+            }
+
+            .matching-area {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+
+            .statement-item {
+                font-size: 1rem;
+                padding: 15px;
+            }
+
+            .explanation-box {
+                padding: 12px 15px;
+            }
+
+            .explanation-box p {
+                font-size: 0.9rem;
+            }
+
+            .completion-page .celebration {
+                font-size: 4rem;
+            }
+
+            .completion-box {
+                padding: 30px 20px;
+            }
+
+            .modal-verb-box {
+                font-size: 1rem;
+                padding: 12px;
+            }
+        }
+
+        /* Small mobile devices */
+        @media (max-width: 480px) {
+            .landing h1 {
+                font-size: 1.5rem;
+            }
+
+            .emoji-group {
+                font-size: 2.5rem;
+            }
+
+            .draggable-item {
+                font-size: 0.9rem;
+                padding: 10px 15px;
+            }
+
+            .drop-zone-header {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Page 1: Landing (Unit 22 Style) -->
+        <div class="page active" id="page1">
+            <div class="landing">
+                <div class="emoji-group">
+                    <span>☀️</span>
+                    <span>🏨</span>
+                    <span>💬</span>
+                </div>
+                <h1>HLA2106: Workplace Writing II</h1>
+                <h2>Unit 23: Discussing Pros and Cons</h2>
+                
+                <div class="challenge-section">
+                    <p class="challenge-description">Ready to master modal verbs and improve your workplace writing skills?</p>
+                    
+                    <ul class="features-list">
+                        <li>✨ Tap or drag the correct modal verbs</li>
+                        <li>📝 Proofread sentences and fix errors</li>
+                        <li>🎯 Get instant feedback and helpful hints</li>
+                        <li>📊 Review your progress and learn from mistakes</li>
+                    </ul>
+                </div>
+
+                <button class="start-btn" onclick="goToPage(2)">Start Section 1 💪</button>
+            </div>
+        </div>
+
+        <!-- Page 2: Audio + WhatsApp Chat + Drag & Drop -->
+        <div class="page" id="page2">
+            <div class="progress-text">Page 1 of 4</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 25%;"></div>
+            </div>
+
+            <div class="page-header">
+                <h2>📱 SA Committee Discussion</h2>
+                <p>Read the conversation and drag the pros and cons to the correct boxes.<br>You may also listen to the conversation too!</p>
+            </div>
+
+            <div class="split-layout">
+                <!-- Left: Audio + WhatsApp Chat -->
+                <div class="whatsapp-section">
+                    <!-- Audio Player -->
+                    <div class="audio-player">
+                        <div class="audio-player-title">
+                            <span>🔊</span>
+                            <span>Listen to the conversation</span>
+                        </div>
+                        <audio controls preload="auto">
+                            <source src="HLA2106_U23_A1.mp3" type="audio/mpeg">
+                            <source src="conversation.ogg" type="audio/ogg">
+                            <source src="conversation.wav" type="audio/wav">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+
+                    <!-- WhatsApp Chat -->
+                    <div class="whatsapp-chat">
+                        <div class="message">
+                            <div class="message-sender">Emma (HR Manager)</div>
+                            <div class="message-text">Hi team! Some colleagues suggested introducing a new style uniform. Thoughts?</div>
+                            <div class="message-time">10:15</div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-sender">Raj (Front Desk Supervisor)</div>
+                            <div class="message-text">I think the new design can improve our brand image. It looks much more modern than what we have now.</div>
+                            <div class="message-time">10:16</div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-sender">Sarah (Housekeeping Manager)</div>
+                            <div class="message-text">True, but it may be quite expensive for the hotel. We need to consider the budget carefully.</div>
+                            <div class="message-time">10:17</div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-sender">Emma</div>
+                            <div class="message-text">Good point. Also, the new fabric will be more comfortable for staff, especially in summer.</div>
+                            <div class="message-time">10:18</div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-sender">Raj</div>
+                            <div class="message-text">Although it may take time to order and distribute everything. We need to plan ahead so it doesn't disrupt operations.</div>
+                            <div class="message-time">10:19</div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-sender">Sarah</div>
+                            <div class="message-text">The staff may need time to adjust too. Some people don't like change! But overall I think it can work well.</div>
+                            <div class="message-time">10:20</div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-sender">Emma</div>
+                            <div class="message-text">Right. We can discuss these pros and cons to management next week then?</div>
+                            <div class="message-time">10:21</div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-sender">Raj</div>
+                            <div class="message-text">Sounds good 👍</div>
+                            <div class="message-time">10:21</div>
+                        </div>
+
+                        <div class="message">
+                            <div class="message-sender">Sarah</div>
+                            <div class="message-text">Perfect!</div>
+                            <div class="message-time">10:22</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Drag & Drop -->
+                <div class="drag-drop-section">
+                    <div>
+                        <h3 style="margin-bottom: 15px; color: #667eea;">💬 Drag these statements:</h3>
+                        <div class="draggable-items" id="draggableItems">
+                            <div class="draggable-item" draggable="true" data-type="pro">Can improve brand image</div>
+                            <div class="draggable-item" draggable="true" data-type="pro">Modern design</div>
+                            <div class="draggable-item" draggable="true" data-type="con">May be expensive</div>
+                            <div class="draggable-item" draggable="true" data-type="pro">More comfortable fabric</div>
+                            <div class="draggable-item" draggable="true" data-type="con">Takes time to order</div>
+                            <div class="draggable-item" draggable="true" data-type="con">Staff may need adjustment time</div>
+                        </div>
+                    </div>
+
+                    <div class="drop-zone" id="prosZone" data-zone="pros">
+                        <div class="drop-zone-header pros-header">
+                            <span>👍</span>
+                            <span>Pros (Advantages)</span>
+                        </div>
+                        <div class="dropped-items" id="prosItems"></div>
+                    </div>
+
+                    <div class="drop-zone" id="consZone" data-zone="cons">
+                        <div class="drop-zone-header cons-header">
+                            <span>👎</span>
+                            <span>Cons (Disadvantages)</span>
+                        </div>
+                        <div class="dropped-items" id="consItems"></div>
+                    </div>
+
+                    <div class="feedback success" id="page2Feedback">
+                        Great job! You've correctly identified all the pros and cons! 🎉
+                    </div>
+                </div>
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goToPage(1)">← Back</button>
+                <button class="btn btn-primary" id="nextPage2" onclick="goToPage(3)" disabled>Next: Find Modal Verbs →</button>
+            </div>
+        </div>
+
+        <!-- Page 3: Click Modal Verbs with Explanations -->
+        <div class="page" id="page3">
+            <div class="progress-text">Page 2 of 4</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 50%;"></div>
+            </div>
+
+            <div class="page-header">
+                <h2>🔍 Find the Modal Verbs</h2>
+                <p>Click on the modal verbs (can, may, will) in each statement</p>
+            </div>
+
+            <div class="statements-list">
+                <div class="statement-item" data-statement="1">
+                    <span class="statement-label pro-label">PRO 👍</span>
+                    <span class="word">The</span>
+                    <span class="word">new</span>
+                    <span class="word">design</span>
+                    <span class="word" data-modal="true">can</span>
+                    <span class="word">improve</span>
+                    <span class="word">our</span>
+                    <span class="word">brand</span>
+                    <span class="word">image</span>
+                    <div class="explanation-box" id="explanation1"></div>
+                </div>
+
+                <div class="statement-item" data-statement="2">
+                    <span class="statement-label con-label">CON 👎</span>
+                    <span class="word">It</span>
+                    <span class="word" data-modal="true">may</span>
+                    <span class="word">be</span>
+                    <span class="word">quite</span>
+                    <span class="word">expensive</span>
+                    <span class="word">for</span>
+                    <span class="word">the</span>
+                    <span class="word">hotel</span>
+                    <div class="explanation-box" id="explanation2"></div>
+                </div>
+
+                <div class="statement-item" data-statement="3">
+                    <span class="statement-label pro-label">PRO 👍</span>
+                    <span class="word">The</span>
+                    <span class="word">new</span>
+                    <span class="word">fabric</span>
+                    <span class="word" data-modal="true">will</span>
+                    <span class="word">be</span>
+                    <span class="word">more</span>
+                    <span class="word">comfortable</span>
+                    <span class="word">for</span>
+                    <span class="word">staff</span>
+                    <div class="explanation-box" id="explanation3"></div>
+                </div>
+
+                <div class="statement-item" data-statement="4">
+                    <span class="statement-label con-label">CON 👎</span>
+                    <span class="word">It</span>
+                    <span class="word" data-modal="true">may</span>
+                    <span class="word">take</span>
+                    <span class="word">time</span>
+                    <span class="word">to</span>
+                    <span class="word">order</span>
+                    <span class="word">and</span>
+                    <span class="word">distribute</span>
+                    <div class="explanation-box" id="explanation4"></div>
+                </div>
+
+                <div class="statement-item" data-statement="5">
+                    <span class="statement-label con-label">CON 👎</span>
+                    <span class="word">Staff</span>
+                    <span class="word" data-modal="true">may</span>
+                    <span class="word">need</span>
+                    <span class="word">time</span>
+                    <span class="word">to</span>
+                    <span class="word">adjust</span>
+                    <div class="explanation-box" id="explanation5"></div>
+                </div>
+
+                <div class="statement-item" data-statement="6">
+                    <span class="statement-label pro-label">PRO 👍</span>
+                    <span class="word">It</span>
+                    <span class="word" data-modal="true">can</span>
+                    <span class="word">work</span>
+                    <span class="word">well</span>
+                    <div class="explanation-box" id="explanation6"></div>
+                </div>
+            </div>
+
+            <div class="feedback success" id="page3Feedback">
+                Excellent! You found all 6 modal verbs! 🌟
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goToPage(2)">← Back</button>
+                <button class="btn btn-primary" id="nextPage3" onclick="goToPage(4)" disabled>Next: Bonus Question →</button>
+            </div>
+        </div>
+
+        <!-- Page 4: Bonus Question -->
+        <div class="page" id="page4">
+            <div class="progress-text">Page 3 of 4</div>
+            <div class="progress-bar">
+                <div class="progress-fill" style="width: 75%;"></div>
+            </div>
+
+            <div class="bonus-section">
+                <div class="star">⭐</div>
+                <h3>Bonus Question!</h3>
+                <p style="font-size: 1.2rem;">Which modal verbs were used to talk about pros and which for cons?</p>
+            </div>
+
+            <div class="matching-area">
+                <div>
+                    <div class="category-title" style="color: #28a745;">👍 PROS (Advantages)</div>
+                    <div class="category-box" id="prosCategory">
+                        <p style="color: #999; text-align: center;">Drag modal verbs here</p>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="category-title" style="color: #dc3545;">👎 CONS (Disadvantages)</div>
+                    <div class="category-box" id="consCategory">
+                        <p style="color: #999; text-align: center;">Drag modal verbs here</p>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 30px;">
+                <h4 style="color: #667eea; margin-bottom: 15px;">Modal Verbs from the conversation:</h4>
+                <div class="draggable-items" id="modalVerbsItems">
+                    <div class="modal-verb-box" draggable="true" data-answer="pro">can (improve brand image)</div>
+                    <div class="modal-verb-box" draggable="true" data-answer="con">may (be expensive)</div>
+                    <div class="modal-verb-box" draggable="true" data-answer="pro">will (be comfortable)</div>
+                    <div class="modal-verb-box" draggable="true" data-answer="con">may (take time to order)</div>
+                    <div class="modal-verb-box" draggable="true" data-answer="con">may (need time to adjust)</div>
+                    <div class="modal-verb-box" draggable="true" data-answer="pro">can (work well)</div>
+                </div>
+            </div>
+
+            <div class="feedback success" id="page4Feedback">
+                Amazing work! 🎊
+            </div>
+
+            <div class="nav-buttons">
+                <button class="btn btn-secondary" onclick="goToPage(3)">← Back</button>
+                <button class="btn btn-primary" id="finishBtn" onclick="goToPage(5)" disabled>See Your Results →</button>
+            </div>
+        </div>
+
+        <!-- Page 5: Completion Page -->
+        <div class="page" id="page5">
+            <div class="completion-page">
+                <div class="celebration">🎉</div>
+                <h2>Congratulations!</h2>
+                <p>You have completed Unit 23: Discussing Pros and Cons!</p>
+
+                <div class="completion-box">
+                    <h3>What You've Learnt Today</h3>
+                    
+                    <ul class="learnt-list">
+                        <li>✓ Identified pros and cons in workplace discussions</li>
+                        <li>✓ Recognised modal verbs (can, may, will) in context</li>
+                        <li>✓ Understood how modal verbs are used to discuss advantages and disadvantages</li>
+                        <li>✓ Applied your knowledge through interactive activities</li>
+                    </ul>
+
+                    <div class="next-steps">
+                        <p>💡 Let's learn more about modal verbs in the Language Review!</p>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="goToPage(1)">Return to Start</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation
+        function goToPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+            document.getElementById('page' + pageNum).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        // Page 2: Drag and Drop
+        let draggedElement = null;
+        let prosCount = 0;
+        let consCount = 0;
+        let totalItems = 6;
+        let droppedCorrectly = 0;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            setupDragAndDrop();
+            setupModalVerbClick();
+            setupBonusQuestion();
+        });
+
+        function setupDragAndDrop() {
+            const draggableItems = document.querySelectorAll('#draggableItems .draggable-item');
+            const dropZones = document.querySelectorAll('.drop-zone');
+
+            draggableItems.forEach(item => {
+                item.addEventListener('dragstart', function(e) {
+                    draggedElement = this;
+                    this.classList.add('dragging');
+                });
+
+                item.addEventListener('dragend', function(e) {
+                    this.classList.remove('dragging');
+                });
+            });
+
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                    this.classList.add('drag-over');
+                });
+
+                zone.addEventListener('dragleave', function(e) {
+                    this.classList.remove('drag-over');
+                });
+
+                zone.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    this.classList.remove('drag-over');
+
+                    if (draggedElement) {
+                        const itemType = draggedElement.getAttribute('data-type');
+                        const zoneType = this.getAttribute('data-zone') === 'pros' ? 'pro' : 'con';
+
+                        const droppedItem = document.createElement('span');
+                        droppedItem.textContent = draggedElement.textContent;
+
+                        if (itemType === zoneType) {
+                            // Correct drop
+                            droppedItem.className = 'dropped-item';
+                            
+                            if (zoneType === 'pro') {
+                                document.getElementById('prosItems').appendChild(droppedItem);
+                                prosCount++;
+                            } else {
+                                document.getElementById('consItems').appendChild(droppedItem);
+                                consCount++;
+                            }
+
+                            draggedElement.remove();
+                            droppedCorrectly++;
+
+                            // Check if all items are sorted correctly
+                            if (droppedCorrectly === totalItems) {
+                                document.getElementById('page2Feedback').classList.add('show');
+                                document.getElementById('nextPage2').disabled = false;
+                            }
+                        } else {
+                            // Wrong drop - show feedback
+                            droppedItem.className = 'dropped-item-wrong';
+                            
+                            if (this.getAttribute('data-zone') === 'pros') {
+                                document.getElementById('prosItems').appendChild(droppedItem);
+                            } else {
+                                document.getElementById('consItems').appendChild(droppedItem);
+                            }
+
+                            // Remove the wrong item after animation
+                            setTimeout(() => {
+                                droppedItem.remove();
+                            }, 1000);
+                        }
+                    }
+                });
+            });
+        }
+
+        // Page 3: Click Modal Verbs with Explanations
+        let modalVerbsFound = 0;
+        const totalModalVerbs = 6;
+
+        // Explanations for wrong answers
+        const explanations = {
+            1: {
+                correct: ['can'],
+                explanation: '<strong>"Can"</strong> is the modal verb here. Words like "the", "new", "design" are not modal verbs – they are articles, adjectives, or nouns. Modal verbs express ability, possibility, or permission.'
+            },
+            2: {
+                correct: ['may'],
+                explanation: '<strong>"May"</strong> is the modal verb here. Words like "it", "be", "quite", "expensive" are not modal verbs. "May" expresses possibility or uncertainty about the cost.'
+            },
+            3: {
+                correct: ['will'],
+                explanation: '<strong>"Will"</strong> is the modal verb here. Words like "the", "new", "fabric", "be" are not modal verbs. "Will" expresses future certainty or prediction.'
+            },
+            4: {
+                correct: ['may'],
+                explanation: '<strong>"May"</strong> is the modal verb here. Words like "it", "take", "time" are not modal verbs. "Take" is a main verb, not a modal verb. "May" expresses possibility.'
+            },
+            5: {
+                correct: ['may'],
+                explanation: '<strong>"May"</strong> is the modal verb here. Words like "staff", "need", "time" are not modal verbs. "Need" is a main verb. "May" expresses possibility about staff adjustment.'
+            },
+            6: {
+                correct: ['can'],
+                explanation: '<strong>"Can"</strong> is the modal verb here. Words like "it", "work", "well" are not modal verbs. "Work" is a main verb. "Can" expresses ability or potential.'
+            }
+        };
+
+        function setupModalVerbClick() {
+            const statements = document.querySelectorAll('#page3 .statement-item');
+
+            statements.forEach(statement => {
+                const statementNum = statement.getAttribute('data-statement');
+                const words = statement.querySelectorAll('.word');
+                const explanationBox = document.getElementById('explanation' + statementNum);
+                let correctWordFound = false;
+
+                words.forEach(word => {
+                    word.addEventListener('click', function() {
+                        // Don't process if already found correct answer for this statement
+                        if (correctWordFound) return;
+
+                        const isModal = this.getAttribute('data-modal') === 'true';
+                        const wordText = this.textContent.toLowerCase();
+
+                        if (isModal && !this.classList.contains('selected')) {
+                            // Correct answer
+                            this.classList.add('selected');
+                            modalVerbsFound++;
+                            correctWordFound = true;
+
+                            // Hide explanation if showing
+                            explanationBox.classList.remove('show');
+
+                            if (modalVerbsFound === totalModalVerbs) {
+                                document.getElementById('page3Feedback').classList.add('show');
+                                document.getElementById('nextPage3').disabled = false;
+                            }
+                        } else if (!isModal && !this.classList.contains('wrong')) {
+                            // Wrong answer
+                            this.classList.add('wrong');
+                            
+                            // Show explanation
+                            const explainData = explanations[statementNum];
+                            explanationBox.innerHTML = '<p>' + explainData.explanation + '</p>';
+                            explanationBox.classList.add('show');
+
+                            // Remove wrong styling after animation
+                            setTimeout(() => {
+                                this.classList.remove('wrong');
+                            }, 1000);
+                        }
+                    });
+                });
+            });
+        }
+
+        // Page 4: Bonus Question
+        let bonusDraggedElement = null;
+        let correctMatches = 0;
+
+        function setupBonusQuestion() {
+            const modalVerbs = document.querySelectorAll('#modalVerbsItems .modal-verb-box');
+            const categories = document.querySelectorAll('.category-box');
+
+            modalVerbs.forEach(verb => {
+                verb.addEventListener('dragstart', function(e) {
+                    bonusDraggedElement = this;
+                });
+            });
+
+            categories.forEach(category => {
+                category.addEventListener('dragover', function(e) {
+                    e.preventDefault();
+                });
+
+                category.addEventListener('drop', function(e) {
+                    e.preventDefault();
+
+                    if (bonusDraggedElement) {
+                        const answer = bonusDraggedElement.getAttribute('data-answer');
+                        const categoryId = this.id;
+
+                        const isCorrect = (categoryId === 'prosCategory' && answer === 'pro') ||
+                                        (categoryId === 'consCategory' && answer === 'con');
+
+                        if (isCorrect) {
+                            bonusDraggedElement.classList.add(answer === 'pro' ? 'matched-pro' : 'matched-con');
+                            this.appendChild(bonusDraggedElement);
+                            correctMatches++;
+
+                            if (correctMatches === 6) {
+                                document.getElementById('page4Feedback').classList.add('show');
+                                document.getElementById('finishBtn').disabled = false;
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+</body>
+</html>
