@@ -326,6 +326,7 @@
             transition: all 0.3s;
             box-shadow: 0 3px 10px rgba(0,0,0,0.2);
             user-select: none;
+            touch-action: none;
         }
 
         .draggable-item:hover {
@@ -335,6 +336,7 @@
 
         .draggable-item.dragging {
             opacity: 0.5;
+            z-index: 1000;
         }
 
         .dropped-item {
@@ -510,6 +512,7 @@
             text-align: center;
             font-size: 1.2rem;
             font-weight: bold;
+            touch-action: none;
         }
 
         .modal-verb-box:hover {
@@ -798,6 +801,7 @@
                 <h2>Unit 23: Discussing Pros and Cons</h2>
                 
                 <div class="challenge-section">
+                    <p class="challenge-title">🚀 Challenge Yourselves! 🍀</p>
                     <p class="challenge-description">Ready to master modal verbs and improve your workplace writing skills?</p>
                     
                     <ul class="features-list">
@@ -834,7 +838,7 @@
                             <span>Listen to the conversation</span>
                         </div>
                         <audio controls preload="auto">
-                            <source src="HLA2106_U23_A1.mp3" type="audio/mpeg">
+                            <source src="conversation.mp3" type="audio/mpeg">
                             <source src="conversation.ogg" type="audio/ogg">
                             <source src="conversation.wav" type="audio/wav">
                             Your browser does not support the audio element.
@@ -1124,7 +1128,7 @@
             window.scrollTo(0, 0);
         }
 
-        // Page 2: Drag and Drop
+        // Page 2: Drag and Drop with Mobile Support
         let draggedElement = null;
         let prosCount = 0;
         let consCount = 0;
@@ -1142,6 +1146,7 @@
             const dropZones = document.querySelectorAll('.drop-zone');
 
             draggableItems.forEach(item => {
+                // Desktop: Mouse events
                 item.addEventListener('dragstart', function(e) {
                     draggedElement = this;
                     this.classList.add('dragging');
@@ -1150,9 +1155,44 @@
                 item.addEventListener('dragend', function(e) {
                     this.classList.remove('dragging');
                 });
+
+                // Mobile: Touch events
+                item.addEventListener('touchstart', function(e) {
+                    draggedElement = this;
+                    this.classList.add('dragging');
+                    this.style.position = 'fixed';
+                    this.style.zIndex = '1000';
+                }, {passive: true});
+
+                item.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    this.style.left = (touch.clientX - 50) + 'px';
+                    this.style.top = (touch.clientY - 20) + 'px';
+                }, {passive: false});
+
+                item.addEventListener('touchend', function(e) {
+                    this.classList.remove('dragging');
+                    
+                    // Find which drop zone the touch ended on
+                    const touch = e.changedTouches[0];
+                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                    const targetZone = elementBelow?.closest('.drop-zone');
+                    
+                    // Reset position
+                    this.style.position = '';
+                    this.style.left = '';
+                    this.style.top = '';
+                    this.style.zIndex = '';
+                    
+                    if (targetZone && draggedElement) {
+                        handleDrop(targetZone);
+                    }
+                }, {passive: true});
             });
 
             dropZones.forEach(zone => {
+                // Desktop events
                 zone.addEventListener('dragover', function(e) {
                     e.preventDefault();
                     this.classList.add('drag-over');
@@ -1165,59 +1205,59 @@
                 zone.addEventListener('drop', function(e) {
                     e.preventDefault();
                     this.classList.remove('drag-over');
-
-                    if (draggedElement) {
-                        const itemType = draggedElement.getAttribute('data-type');
-                        const zoneType = this.getAttribute('data-zone') === 'pros' ? 'pro' : 'con';
-
-                        const droppedItem = document.createElement('span');
-                        droppedItem.textContent = draggedElement.textContent;
-
-                        if (itemType === zoneType) {
-                            // Correct drop
-                            droppedItem.className = 'dropped-item';
-                            
-                            if (zoneType === 'pro') {
-                                document.getElementById('prosItems').appendChild(droppedItem);
-                                prosCount++;
-                            } else {
-                                document.getElementById('consItems').appendChild(droppedItem);
-                                consCount++;
-                            }
-
-                            draggedElement.remove();
-                            droppedCorrectly++;
-
-                            // Check if all items are sorted correctly
-                            if (droppedCorrectly === totalItems) {
-                                document.getElementById('page2Feedback').classList.add('show');
-                                document.getElementById('nextPage2').disabled = false;
-                            }
-                        } else {
-                            // Wrong drop - show feedback
-                            droppedItem.className = 'dropped-item-wrong';
-                            
-                            if (this.getAttribute('data-zone') === 'pros') {
-                                document.getElementById('prosItems').appendChild(droppedItem);
-                            } else {
-                                document.getElementById('consItems').appendChild(droppedItem);
-                            }
-
-                            // Remove the wrong item after animation
-                            setTimeout(() => {
-                                droppedItem.remove();
-                            }, 1000);
-                        }
-                    }
+                    handleDrop(this);
                 });
             });
+
+            function handleDrop(zone) {
+                if (draggedElement) {
+                    const itemType = draggedElement.getAttribute('data-type');
+                    const zoneType = zone.getAttribute('data-zone') === 'pros' ? 'pro' : 'con';
+
+                    const droppedItem = document.createElement('span');
+                    droppedItem.textContent = draggedElement.textContent;
+
+                    if (itemType === zoneType) {
+                        // Correct drop
+                        droppedItem.className = 'dropped-item';
+                        
+                        if (zoneType === 'pro') {
+                            document.getElementById('prosItems').appendChild(droppedItem);
+                            prosCount++;
+                        } else {
+                            document.getElementById('consItems').appendChild(droppedItem);
+                            consCount++;
+                        }
+
+                        draggedElement.remove();
+                        droppedCorrectly++;
+
+                        if (droppedCorrectly === totalItems) {
+                            document.getElementById('page2Feedback').classList.add('show');
+                            document.getElementById('nextPage2').disabled = false;
+                        }
+                    } else {
+                        // Wrong drop
+                        droppedItem.className = 'dropped-item-wrong';
+                        
+                        if (zone.getAttribute('data-zone') === 'pros') {
+                            document.getElementById('prosItems').appendChild(droppedItem);
+                        } else {
+                            document.getElementById('consItems').appendChild(droppedItem);
+                        }
+
+                        setTimeout(() => {
+                            droppedItem.remove();
+                        }, 1000);
+                    }
+                }
+            }
         }
 
         // Page 3: Click Modal Verbs with Explanations
         let modalVerbsFound = 0;
         const totalModalVerbs = 6;
 
-        // Explanations for wrong answers
         const explanations = {
             1: {
                 correct: ['can'],
@@ -1256,19 +1296,15 @@
 
                 words.forEach(word => {
                     word.addEventListener('click', function() {
-                        // Don't process if already found correct answer for this statement
                         if (correctWordFound) return;
 
                         const isModal = this.getAttribute('data-modal') === 'true';
-                        const wordText = this.textContent.toLowerCase();
 
                         if (isModal && !this.classList.contains('selected')) {
-                            // Correct answer
                             this.classList.add('selected');
                             modalVerbsFound++;
                             correctWordFound = true;
 
-                            // Hide explanation if showing
                             explanationBox.classList.remove('show');
 
                             if (modalVerbsFound === totalModalVerbs) {
@@ -1276,15 +1312,12 @@
                                 document.getElementById('nextPage3').disabled = false;
                             }
                         } else if (!isModal && !this.classList.contains('wrong')) {
-                            // Wrong answer
                             this.classList.add('wrong');
                             
-                            // Show explanation
                             const explainData = explanations[statementNum];
                             explanationBox.innerHTML = '<p>' + explainData.explanation + '</p>';
                             explanationBox.classList.add('show');
 
-                            // Remove wrong styling after animation
                             setTimeout(() => {
                                 this.classList.remove('wrong');
                             }, 1000);
@@ -1294,7 +1327,7 @@
             });
         }
 
-        // Page 4: Bonus Question
+        // Page 4: Bonus Question with Mobile Support
         let bonusDraggedElement = null;
         let correctMatches = 0;
 
@@ -1303,39 +1336,75 @@
             const categories = document.querySelectorAll('.category-box');
 
             modalVerbs.forEach(verb => {
+                // Desktop
                 verb.addEventListener('dragstart', function(e) {
                     bonusDraggedElement = this;
                 });
+
+                // Mobile
+                verb.addEventListener('touchstart', function(e) {
+                    bonusDraggedElement = this;
+                    this.style.opacity = '0.5';
+                    this.style.position = 'fixed';
+                    this.style.zIndex = '1000';
+                }, {passive: true});
+
+                verb.addEventListener('touchmove', function(e) {
+                    e.preventDefault();
+                    const touch = e.touches[0];
+                    this.style.left = (touch.clientX - 100) + 'px';
+                    this.style.top = (touch.clientY - 30) + 'px';
+                }, {passive: false});
+
+                verb.addEventListener('touchend', function(e) {
+                    const touch = e.changedTouches[0];
+                    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+                    const targetCategory = elementBelow?.closest('.category-box');
+                    
+                    this.style.opacity = '';
+                    this.style.position = '';
+                    this.style.left = '';
+                    this.style.top = '';
+                    this.style.zIndex = '';
+                    
+                    if (targetCategory && bonusDraggedElement) {
+                        handleBonusDrop(targetCategory);
+                    }
+                }, {passive: true});
             });
 
             categories.forEach(category => {
+                // Desktop
                 category.addEventListener('dragover', function(e) {
                     e.preventDefault();
                 });
 
                 category.addEventListener('drop', function(e) {
                     e.preventDefault();
-
-                    if (bonusDraggedElement) {
-                        const answer = bonusDraggedElement.getAttribute('data-answer');
-                        const categoryId = this.id;
-
-                        const isCorrect = (categoryId === 'prosCategory' && answer === 'pro') ||
-                                        (categoryId === 'consCategory' && answer === 'con');
-
-                        if (isCorrect) {
-                            bonusDraggedElement.classList.add(answer === 'pro' ? 'matched-pro' : 'matched-con');
-                            this.appendChild(bonusDraggedElement);
-                            correctMatches++;
-
-                            if (correctMatches === 6) {
-                                document.getElementById('page4Feedback').classList.add('show');
-                                document.getElementById('finishBtn').disabled = false;
-                            }
-                        }
-                    }
+                    handleBonusDrop(this);
                 });
             });
+
+            function handleBonusDrop(category) {
+                if (bonusDraggedElement) {
+                    const answer = bonusDraggedElement.getAttribute('data-answer');
+                    const categoryId = category.id;
+
+                    const isCorrect = (categoryId === 'prosCategory' && answer === 'pro') ||
+                                    (categoryId === 'consCategory' && answer === 'con');
+
+                    if (isCorrect) {
+                        bonusDraggedElement.classList.add(answer === 'pro' ? 'matched-pro' : 'matched-con');
+                        category.appendChild(bonusDraggedElement);
+                        correctMatches++;
+
+                        if (correctMatches === 6) {
+                            document.getElementById('page4Feedback').classList.add('show');
+                            document.getElementById('finishBtn').disabled = false;
+                        }
+                    }
+                }
+            }
         }
     </script>
 </body>
