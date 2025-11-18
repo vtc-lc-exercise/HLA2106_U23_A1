@@ -528,6 +528,10 @@
             background: #dc3545;
         }
 
+        .modal-verb-box.dragging {
+            opacity: 0.5;
+        }
+
         .category-box {
             background: #f8f9fa;
             padding: 20px;
@@ -1128,7 +1132,7 @@
             window.scrollTo(0, 0);
         }
 
-        // Page 2: Drag and Drop with Mobile Support
+        // Page 2: Drag and Drop with Mobile Support - FIXED VERSION
         let draggedElement = null;
         let prosCount = 0;
         let consCount = 0;
@@ -1160,30 +1164,38 @@
                 item.addEventListener('touchstart', function(e) {
                     draggedElement = this;
                     this.classList.add('dragging');
-                    this.style.position = 'fixed';
-                    this.style.zIndex = '1000';
                 }, {passive: true});
 
                 item.addEventListener('touchmove', function(e) {
                     e.preventDefault();
                     const touch = e.touches[0];
+                    this.style.position = 'fixed';
                     this.style.left = (touch.clientX - 50) + 'px';
                     this.style.top = (touch.clientY - 20) + 'px';
+                    this.style.zIndex = '1000';
+                    this.style.pointerEvents = 'none';
                 }, {passive: false});
 
                 item.addEventListener('touchend', function(e) {
                     this.classList.remove('dragging');
+                    
+                    // Temporarily hide the dragged element
+                    this.style.display = 'none';
                     
                     // Find which drop zone the touch ended on
                     const touch = e.changedTouches[0];
                     const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
                     const targetZone = elementBelow?.closest('.drop-zone');
                     
+                    // Show the element again
+                    this.style.display = '';
+                    
                     // Reset position
                     this.style.position = '';
                     this.style.left = '';
                     this.style.top = '';
                     this.style.zIndex = '';
+                    this.style.pointerEvents = '';
                     
                     if (targetZone && draggedElement) {
                         handleDrop(targetZone);
@@ -1327,7 +1339,7 @@
             });
         }
 
-        // Page 4: Bonus Question with Mobile Support
+        // Page 4: Bonus Question with Mobile Support - FIXED VERSION
         let bonusDraggedElement = null;
         let correctMatches = 0;
 
@@ -1344,28 +1356,38 @@
                 // Mobile
                 verb.addEventListener('touchstart', function(e) {
                     bonusDraggedElement = this;
-                    this.style.opacity = '0.5';
-                    this.style.position = 'fixed';
-                    this.style.zIndex = '1000';
+                    this.classList.add('dragging');
                 }, {passive: true});
 
                 verb.addEventListener('touchmove', function(e) {
                     e.preventDefault();
                     const touch = e.touches[0];
+                    this.style.position = 'fixed';
                     this.style.left = (touch.clientX - 100) + 'px';
                     this.style.top = (touch.clientY - 30) + 'px';
+                    this.style.zIndex = '1000';
+                    this.style.pointerEvents = 'none';
                 }, {passive: false});
 
                 verb.addEventListener('touchend', function(e) {
+                    this.classList.remove('dragging');
+                    
+                    // Temporarily hide to detect what's underneath
+                    this.style.display = 'none';
+                    
                     const touch = e.changedTouches[0];
                     const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
                     const targetCategory = elementBelow?.closest('.category-box');
                     
-                    this.style.opacity = '';
+                    // Show again
+                    this.style.display = '';
+                    
+                    // Reset styles
                     this.style.position = '';
                     this.style.left = '';
                     this.style.top = '';
                     this.style.zIndex = '';
+                    this.style.pointerEvents = '';
                     
                     if (targetCategory && bonusDraggedElement) {
                         handleBonusDrop(targetCategory);
